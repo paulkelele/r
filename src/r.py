@@ -2,7 +2,7 @@ import pickle
 import pathlib
 import os
 
-states_value = {'b':10}
+states_value = {'b':1}
 
 def save(states_value):
     f = pathlib.Path('p')
