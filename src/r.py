@@ -40,6 +40,10 @@ class Agent():
 
     def feedReward(self, reward):
         for st in reversed(self.states):
+            if self.states_value.get(st) is None:
+                self.states_value[st] = 0
+            else:
+                pass
             pass
     
 class Environement:
