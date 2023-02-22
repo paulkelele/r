@@ -42,9 +42,9 @@ class Agent():
         for st in reversed(self.states):
             if self.states_value.get(st) is None:
                 self.states_value[st] = 0
-            else:
-                pass
-            pass
+            self.states_value[st] += self.lr * (self.decay_gamma * reward - self.states_value[st])
+            reward = self.states_value[st]
+            
     
 class Environement:
     def __init__(self) -> None:
