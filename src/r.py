@@ -1,3 +1,7 @@
+#https://towardsdatascience.com/reinforcement-learning-implement-tictactoe-189582bea542
+#https://towardsdatascience.com/implement-grid-world-with-q-learning-51151747b455
+#https://towardsdatascience.com/reinforcement-learning-with-sarsa-a-good-alternative-to-q-learning-algorithm-bf35b209e1c
+
 import numpy as np
 import pickle
 import pathlib
