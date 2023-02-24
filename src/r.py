@@ -102,7 +102,11 @@ class Environnement:
                     positions.append((i, j))
         return positions
         
-
+    def trainning(self):
+        pass
+    
+    
+######################################
 if __name__ == "__main__":
     # save(states_value)
     # load(states_value)
