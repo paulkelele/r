@@ -308,7 +308,7 @@ class HumanPlayer:
 
 if __name__ == "__main__":
   # training
-    a = 1
+    a = 0
     if a == 0:
         p1 = Player("p1",exp_rate=0.1)
         p1.loadPolicy()
