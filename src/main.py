@@ -86,7 +86,7 @@ class State:
             self.p1.feedReward(0)
             self.p2.feedReward(1)
         else:
-            self.p1.feedReward(0.1)
+            self.p1.feedReward(0.0)
             self.p2.feedReward(0.5)
 
     # board reset
@@ -197,7 +197,7 @@ class Player:
     def __init__(self, name, exp_rate=0.3):
         self.name = name
         self.states = []  # record all positions taken
-        self.lr = 0.2
+        self.lr = 0.1
         self.exp_rate = exp_rate
         self.decay_gamma = 0.9
         self.states_value = {}  # state -> value
@@ -310,13 +310,13 @@ if __name__ == "__main__":
   # training
     a = 0
     if a == 0:
-        p1 = Player("p1",exp_rate=0.3)
+        p1 = Player("p1",exp_rate=0.1)
         p1.loadPolicy()
         p2 = Player("p2")
 
         st = State(p1, p2)
         print("training...")
-        st.play(10000)
+        st.play(1000)
 
   #  play with human
     else:
