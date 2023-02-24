@@ -54,9 +54,9 @@ class Agent():
     
     # enregistrement de la policy
     def save(self):
-        f = pathlib.Path('p')
+        f = pathlib.Path('p_' + str(self.name))
         if f.exists():
-            f = open('p', 'rb')
+            f = open('p_' + str(self.name), 'rb')
             reloaded_states_value = pickle.load(f)
             for x in reloaded_states_value:
                 for y in self.states_value:
@@ -66,31 +66,33 @@ class Agent():
                         else:
                             self.states_value[y] = reloaded_states_value[x]
             reloaded_states_value.update(self.states_value)
-            f = open('p','wb')
+            f = open('p_' + str(self.name),'wb')
             pickle.dump(reloaded_states_value,f)
             f.close()
         else:
             if len(self.states_value) > 0:
-                f = open('p','wb')
+                f = open('p_' + str(self.name),'wb')
                 pickle.dump(self.states_value,f)
                 f.close()
 
     # chargement de la politique
     def load(self):
-        f = pathlib.Path('p')
+        f = pathlib.Path('p_' + str(self.name))
         if f.exists():
             if os.path.getsize(f) > 0:
-                f = open('p', 'rb')
+                f = open('p_' + str(self.name), 'rb')
                 self.states_value = pickle.load(f)
                 f.close()
-                print(self.states_value)
+                #print(self.states_value)
     
 
 # Environnement
-class Environement:
-    def __init__(self) -> None:
+class Environnement:
+    def __init__(self, agent:Agent, user) -> None:
         self.board = np.zeros((ROWS,COLS))
         self.isEnd = False
+        self.agent = agent
+        self.user = user
     
     def availablePositions(self):
         positions = []
@@ -100,7 +102,12 @@ class Environement:
                     positions.append((i, j))
         return positions
         
-    
+
+if __name__ == "__main__":
+    # save(states_value)
+    # load(states_value)
+    pass
+
 # states_value = {'b':60, 'c':20}
 
 # def save(states_value):
@@ -134,8 +141,3 @@ class Environement:
 #             states_value = pickle.load(f)
 #             f.close()
 #             print(states_value)
-
-if __name__ == "__main__":
-    # save(states_value)
-    # load(states_value)
-    pass
