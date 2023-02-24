@@ -139,10 +139,6 @@ class State:
                         break
             self.p1.savePolicy()    
                         
-        print("ddddddddd")
-        
-            
-            
 
     # play with human
     def play2(self):
@@ -312,21 +308,22 @@ class HumanPlayer:
 
 if __name__ == "__main__":
   # training
-    
-    # p1 = Player("p1",exp_rate=0.5)
-    # p1.loadPolicy()
-    # p2 = Player("p2")
+    a = 0
+    if a == 0:
+        p1 = Player("p1",exp_rate=0.3)
+        p1.loadPolicy()
+        p2 = Player("p2")
 
-    # st = State(p1, p2)
-    # print("training...")
-    # st.play(10000)
+        st = State(p1, p2)
+        print("training...")
+        st.play(10000)
 
   #  play with human
-   
-    p1 = Player("p1", exp_rate=0.0)
-    p1.loadPolicy()
+    else:
+        p1 = Player("p1", exp_rate=0.0)
+        p1.loadPolicy()
 
-    p2 = HumanPlayer("human")
+        p2 = HumanPlayer("papa")
 
-    st = State(p1, p2)
-    st.play2()
+        st = State(p1, p2)
+        st.play2()
