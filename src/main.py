@@ -2,6 +2,8 @@ import os
 import numpy as np
 import pickle
 import pathlib
+from tqdm import tqdm
+
 BOARD_ROWS = 3
 BOARD_COLS = 3
 
@@ -95,9 +97,9 @@ class State:
         self.playerSymbol = 1
 
     def play(self, rounds=1):
-        for i in range(rounds):
-            if i % 1000 == 0:
-                print("Rounds {}".format(i))
+        for _ in tqdm(range(rounds)):
+            # if i % 500 == 0:
+            #     print("Rounds {}".format(i))
             while not self.isEnd:
                 # Player 1
                 positions = self.availablePositions()
@@ -148,6 +150,7 @@ class State:
             # Player 1
             positions = self.availablePositions()
             p1_action = self.p1.chooseAction(positions, self.board, self.playerSymbol)
+            print(p1_action)
             # take action and upate board state
             self.updateState(p1_action)
             self.showBoard()
@@ -208,6 +211,7 @@ class Player:
         return boardHash
 
     def chooseAction(self, positions, current_board, symbol):
+        #print(len(self.states_value))
         if np.random.uniform(0, 1) <= self.exp_rate:
             # take random action
             idx = np.random.choice(len(positions))
@@ -217,13 +221,14 @@ class Player:
             for p in positions:
                 next_board = current_board.copy()
                 next_board[p] = symbol
+                #print(next_board)
                 next_boardHash = self.getHash(next_board)
                 value = 0 if self.states_value.get(next_boardHash) is None else self.states_value.get(next_boardHash)
-                #print("value", value)
+                #print(value, " ", value_max)
                 if value >= value_max:
                     value_max = value
                     action = p
-        # print("{} takes action {}".format(self.name, action))
+        #print("{} takes action {}".format(self.name, action))
         return action
 
     # append a hash state
@@ -306,16 +311,19 @@ class HumanPlayer:
 
 
 if __name__ == "__main__":
-    # training
-    p1 = Player("p1")
-    p2 = Player("p2")
+  # training
+    
+    # p1 = Player("p1",exp_rate=0.5)
+    # p1.loadPolicy()
+    # p2 = Player("p2")
 
-    st = State(p1, p2)
-    print("training...")
-    st.play(5000)
+    # st = State(p1, p2)
+    # print("training...")
+    # st.play(10000)
 
-    # play with human
-    p1 = Player("computer", exp_rate=-1)
+  #  play with human
+   
+    p1 = Player("p1", exp_rate=0.0)
     p1.loadPolicy()
 
     p2 = HumanPlayer("human")
