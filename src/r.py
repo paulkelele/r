@@ -17,7 +17,7 @@ class Agent():
         self.exp_rate = exp_rate
         self.lr = 0.2
         self.decay_gamma = 0.9
-        self.etat = []
+        self.states = []
         self.states_value = {}
         
     def flattenBoard(self, board):
@@ -27,6 +27,7 @@ class Agent():
     def addState(self, state):
         self.states.append(state)
     
+    # determine la meilleure action
     def chooseAction(self,positions,board):
         if np.ramdom.uniform(0,1) <= self.exp_rate:
             idx = np.random.choice(len(positions))
@@ -43,14 +44,15 @@ class Agent():
                     action = p
         return action
 
-    def feedReward(self, reward):
+    # application de la recompense
+    def applyReward(self, reward):
         for st in reversed(self.states):
             if self.states_value.get(st) is None:
                 self.states_value[st] = 0
             self.states_value[st] += self.lr * (self.decay_gamma * reward - self.states_value[st])
             reward = self.states_value[st]
     
-    
+    # enregistrement de la policy
     def save(self):
         f = pathlib.Path('p')
         if f.exists():
@@ -72,7 +74,8 @@ class Agent():
                 f = open('p','wb')
                 pickle.dump(self.states_value,f)
                 f.close()
-                
+
+    # chargement de la politique
     def load(self):
         f = pathlib.Path('p')
         if f.exists():
@@ -82,12 +85,12 @@ class Agent():
                 f.close()
                 print(self.states_value)
     
+
+# Environnement
 class Environement:
     def __init__(self) -> None:
         self.board = np.zeros((ROWS,COLS))
         self.isEnd = False
-    
-    
     
     def availablePositions(self):
         positions = []
