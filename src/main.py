@@ -296,7 +296,7 @@ if __name__ == "__main__":
     st.play(1000)
 
     # play with human
-    p1 = Player("computer", exp_rate=0)
+    p1 = Player("computer", exp_rate=-1)
     p1.loadPolicy("policy_p1")
 
     p2 = HumanPlayer("human")
