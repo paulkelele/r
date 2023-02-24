@@ -1,3 +1,4 @@
+import os
 import numpy as np
 import pickle
 import pathlib
@@ -134,8 +135,10 @@ class State:
                         self.p2.reset()
                         self.reset()
                         break
+            self.p1.savePolicy()    
+                        
         print("ddddddddd")
-        self.p1.savePolicy()
+        
             
             
 
@@ -248,18 +251,34 @@ class Player:
         self.states = []
 
     def savePolicy(self):
-        f = pathlib.Path('policy_' + str(self.name))
+        f = pathlib.Path('p_' + str(self.name))
         if f.exists():
-            pass
-        else:
-            f = open('policy_' + str(self.name), 'wb')
-            pickle.dump(self.states_value, f)
+            f = open('p_' + str(self.name), 'rb')
+            reloaded_states_value = pickle.load(f)
+            for x in reloaded_states_value:
+                for y in self.states_value:
+                    if(x == y):
+                        if reloaded_states_value[x] < self.states_value[y]:
+                            reloaded_states_value[x] = self.states_value[y]
+                        else:
+                            self.states_value[y] = reloaded_states_value[x]
+            reloaded_states_value.update(self.states_value)
+            f = open('p_' + str(self.name),'wb')
+            pickle.dump(reloaded_states_value,f)
             f.close()
+        else:
+            if len(self.states_value) > 0:
+                f = open('p_' + str(self.name),'wb')
+                pickle.dump(self.states_value,f)
+                f.close()
 
-    def loadPolicy(self, file):
-        fr = open(file, 'rb')
-        self.states_value = pickle.load(fr)
-        fr.close()
+    def loadPolicy(self):
+        f = pathlib.Path('p_' + str(self.name))
+        if f.exists():
+            if os.path.getsize(f) > 0:
+                f = open('p_' + str(self.name), 'rb')
+                self.states_value = pickle.load(f)
+                f.close()
 
 
 class HumanPlayer:
@@ -293,11 +312,11 @@ if __name__ == "__main__":
 
     st = State(p1, p2)
     print("training...")
-    st.play(1000)
+    st.play(5000)
 
     # play with human
     p1 = Player("computer", exp_rate=-1)
-    p1.loadPolicy("policy_p1")
+    p1.loadPolicy()
 
     p2 = HumanPlayer("human")
 
