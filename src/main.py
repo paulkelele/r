@@ -323,7 +323,7 @@ if __name__ == "__main__":
         p1 = Player("p1", exp_rate=-1)
         p1.loadPolicy()
 
-        p2 = HumanPlayer("papa")
+        p2 = HumanPlayer("prr")
 
         st = State(p1, p2)
         st.play2()
