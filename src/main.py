@@ -2,6 +2,7 @@ import os
 import numpy as np
 import pickle
 import pathlib
+import random
 from tqdm import tqdm
 
 BOARD_ROWS = 3
@@ -86,8 +87,8 @@ class State:
             self.p1.feedReward(0)
             self.p2.feedReward(1)
         else:
-            self.p1.feedReward(0.0)
-            self.p2.feedReward(0.5)
+            self.p1.feedReward(0.2)
+            self.p2.feedReward(0.8)
 
     # board reset
     def reset(self):
@@ -98,8 +99,6 @@ class State:
 
     def play(self, rounds=1):
         for _ in tqdm(range(rounds)):
-            # if i % 500 == 0:
-            #     print("Rounds {}".format(i))
             while not self.isEnd:
                 # Player 1
                 positions = self.availablePositions()
@@ -224,7 +223,7 @@ class Player:
                 if value >= value_max:
                     value_max = value
                     action = p
-        #print("{} takes action {}".format(self.name, action))
+        print("{} takes action {}".format(self.name, action))
         return action
 
     # append a hash state
@@ -233,19 +232,11 @@ class Player:
 
     # at the end of game, backpropagate and update states value
     def feedReward(self, reward):
-        #print("In feedDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD")
-        #print(self.states, " ALL STATES")
-        #print(len(self.states))
-        for st in reversed(self.states):
-            #print(st, "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
-            #print("Rewar: ",reward)
+         for st in reversed(self.states):
             if self.states_value.get(st) is None:
                 self.states_value[st] = 0
-            #print(self.states_value[st])
-            #print("bbb :",self.lr * (self.decay_gamma * reward - self.states_value[st]))
             self.states_value[st] += self.lr * (self.decay_gamma * reward - self.states_value[st])
             reward = self.states_value[st]
-            #print(self.states_value,"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
             
 
     def reset(self):
@@ -288,8 +279,8 @@ class HumanPlayer:
 
     def chooseAction(self, positions):
         while True:
-            row = int(input("Input your action row:"))
-            col = int(input("Input your action col:"))
+            row = int(input("Input your action ligne:"))
+            col = int(input("Input your action colonne:"))
             action = (row, col)
             if action in positions:
                 return action
@@ -308,15 +299,15 @@ class HumanPlayer:
 
 if __name__ == "__main__":
   # training
-    a = 1
-    if a == 0:
+    a = 0
+    if a == 1:
         p1 = Player("p1",exp_rate=0.1)
         p1.loadPolicy()
         p2 = Player("p2")
 
         st = State(p1, p2)
         print("training...")
-        st.play(1000)
+        st.play(2000)
 
   #  play with human
     else:
