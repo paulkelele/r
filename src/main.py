@@ -87,8 +87,8 @@ class State:
             self.p1.feedReward(0)
             self.p2.feedReward(1)
         else:
-            self.p1.feedReward(0.2)
-            self.p2.feedReward(0.8)
+            self.p1.feedReward(0.1)
+            self.p2.feedReward(0.9)
 
     # board reset
     def reset(self):
@@ -145,7 +145,7 @@ class State:
             # Player 1
             positions = self.availablePositions()
             p1_action = self.p1.chooseAction(positions, self.board, self.playerSymbol)
-            print(p1_action)
+            #print(p1_action)
             # take action and upate board state
             self.updateState(p1_action)
             self.showBoard()
@@ -196,9 +196,9 @@ class Player:
     def __init__(self, name, exp_rate=0.3):
         self.name = name
         self.states = []  # record all positions taken
-        self.lr = 0.1
+        self.lr = 0.2
         self.exp_rate = exp_rate
-        self.decay_gamma = 0.9
+        self.decay_gamma = 0.8
         self.states_value = {}  # state -> value
 
     def getHash(self, board):
@@ -223,7 +223,7 @@ class Player:
                 if value >= value_max:
                     value_max = value
                     action = p
-        print("{} takes action {}".format(self.name, action))
+        #print("{} takes action {}".format(self.name, action))
         return action
 
     # append a hash state
@@ -299,7 +299,7 @@ class HumanPlayer:
 
 if __name__ == "__main__":
   # training
-    a = 0
+    a = 1  
     if a == 1:
         p1 = Player("p1",exp_rate=0.1)
         p1.loadPolicy()
@@ -307,7 +307,7 @@ if __name__ == "__main__":
 
         st = State(p1, p2)
         print("training...")
-        st.play(2000)
+        st.play(20000)
 
   #  play with human
     else:
