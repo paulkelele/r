@@ -193,7 +193,7 @@ class State:
 
 
 class Player:
-    def __init__(self, name, exp_rate=0.3):
+    def __init__(self, name, exp_rate=0.7):
         self.name = name
         self.states = []  # record all positions taken
         self.lr = 0.2
