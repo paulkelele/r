@@ -299,9 +299,9 @@ class HumanPlayer:
 
 if __name__ == "__main__":
   # training
-    a = 0  
+    a = 1  
     if a == 1:
-        p1 = Player("p1",exp_rate=0.7)
+        p1 = Player("p1",exp_rate=0.9)
         p1.loadPolicy()
         p2 = Player("p2")
 
