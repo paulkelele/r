@@ -251,7 +251,7 @@ class Player:
                 for y in self.states_value:
                     if(x == y):
                         if reloaded_states_value[x] < self.states_value[y]:
-                            reloaded_states_value[x] = self.states_vaPlayerlue[y]
+                            reloaded_states_value[x] = self.states_value[y]
                         else:
                             self.states_value[y] = reloaded_states_value[x]
             reloaded_states_value.update(self.states_value)
